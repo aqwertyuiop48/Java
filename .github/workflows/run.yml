@@ -1,0 +1,21 @@
+name: Run
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: |
+         mvn --batch-mode --update-snapshots verify
+         mvn clean compile
+         mvn test
